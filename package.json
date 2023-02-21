@@ -1,0 +1,16 @@
+{
+  "name": "gofans",
+  "version": "0.1.1",
+  "description": "A platform for creators to create content",
+  "main": "index.js",
+  "scripts": {
+    "dev:server": "cd backend && npm run dev",
+    "dev:client": "cd frontend && npm start"
+  },
+  "author": "krtinshet",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "validator": "^13.7.0"
+  }
+}
