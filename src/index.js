@@ -13,12 +13,16 @@ const {
 } = require("./controllers/AuthController")
 
 
+const AuthApi = require("./apis/AuthAPI");
+const CommentApi = require("./apis/CommentAPI")
+const FeedApi = require("./apis/FeedAPI")
+const UserApi = require("./apis/UserAPI")
+
+const IndexView = require('./routes/index')
+
+
 dbconfig();
 
-const UserAPI = require("./apis/UserAPI");
-const CommentAPI = require("./apis/CommentAPI");
-const FeedAPI = require("./apis/FeedAPI");
-const AuthAPI = require("./apis/AuthAPI");
 
 const app = express();
 
@@ -29,15 +33,16 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(cors());
 app.options('*', cors());
-app.use(helmet({ contentSecurityPolicy: false }));
+app.set('view engine', 'ejs');
+app.use(helmet());
 app.use(compression());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "..", "frontend", "public")));
-app.use(seralizeUser)
+// app.use(express.static(path.join(__dirname, "..", "frontend", "public")));
+// app.use(seralizeUser)
 
 
-app.use("/ping", (req, res) => {
+app.get("/ping", (req, res) => {
   res.status(200).json({
     status: "success",
     message: "pong",
@@ -45,10 +50,23 @@ app.use("/ping", (req, res) => {
 });
 
 
-app.use("/api/v1/users", UserAPI);
-app.use("/api/v1/comments", CommentAPI);
-app.use("/api/v1/feeds", FeedAPI);
-app.use("/api/v1/auth", AuthAPI);
+/**
+ * View Endpoints
+ */
+
+app.use("/", IndexView)
+
+
+/**
+ * API Endpoints
+ */
+
+app.use("/api/v1/auth", AuthApi)
+app.use("/api/v1/comment", CommentApi)
+app.use("/api/v1/feed", FeedApi)
+app.use("/api/v1/user", UserApi)
+
+
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -63,7 +81,7 @@ app.all("*", (req, res, next) => {
 
 app.use(ErrorController);
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   if (process.env.NODE_ENV === "development") {
     console.log(

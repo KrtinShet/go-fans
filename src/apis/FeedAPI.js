@@ -12,7 +12,7 @@ const { isLoggedIn, restrictTo } = require("./../controllers/AuthController")
 
 router
   .route("/")
-  .get(isLoggedIn, getAllFeeds)
+  .get(getAllFeeds)
   .post(isLoggedIn, restrictTo("publisher"), createFeed);
 
 router
