@@ -18,7 +18,7 @@ router
 router
   .route("/:id")
   .get(isLoggedIn, getFeed)
-  .patch(isLoggedIn, restrictTo("user"), updateFeed)
-  .delete(isLoggedIn, restrictTo("user"), deleteFeed);
+  .patch(isLoggedIn, restrictTo("publisher"), updateFeed)
+  .delete(isLoggedIn, restrictTo("publisher"), deleteFeed);
 
 module.exports = router;
