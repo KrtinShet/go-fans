@@ -88,20 +88,20 @@ exports.restrictTo = (...usertype) => {
 
 exports.seralizeUser = catchAsync(async (req, res, next) => {
     const token = req.cookies.jwt;
-    if (token) {
-        try {
-            const decoded = await jwt.verify(token, process.env.JWTSECRET);
-            const user = await User.findById(decoded.uid);
-            req.user = user;
-            next();
-        } catch (err) {
-            req.user = null;
-            return next();
-        }
-    } else {
+    if (!token) {
         req.user = null;
         next();
     }
+    try {
+        const decoded = await jwt.verify(token, process.env.JWTSECRET);
+        const user = await User.findById(decoded.uid);
+        req.user = user;
+        next();
+    } catch (err) {
+        req.user = null;
+        return next();
+    }
+
 });
 
 exports.isLoggedIn = (req, res, next) => {
