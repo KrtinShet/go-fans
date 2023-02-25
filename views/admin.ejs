@@ -1,0 +1,27 @@
+<% if (messages.error) { %>
+    <%= messages.error %>
+  <% } %>
+  <link rel="stylesheet" href="/views/style.css" type="text/css">
+
+<div class="container">
+  <div class="title">Creator Studio</div>
+  <div class="content">
+    <form action="/login" method="POST">
+      <div class="user-details">
+        <div class="input-box">
+          <span class="details">Email</span>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-box">
+          <span class="details">Password</span>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+      </div>
+      <div class="button">
+        <!-- <input type="submit" value="Register"> -->
+        <button type="submit">Login</button>
+        <a href="/login">Login as User</a>
+      </div>
+    </form>
+  </div>
+</div>
