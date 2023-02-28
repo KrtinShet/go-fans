@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-const axios = require("axios");
+const dotenv = require("dotenv"); 
 
 const createJWT = require("./../utils/createJWT");
 const User = require("./../models/UserModel");
@@ -9,7 +8,7 @@ const AppError = require("./../utils/AppError");
 
 dotenv.config();
 
-const sendJWTResponse = (user, message, statusCode, res) => {
+exports.sendJWTResponse = (user, message, statusCode, res) => {
     const token = createJWT(jwt, user.id);
     user.password = undefined;
     user.__v = undefined;
