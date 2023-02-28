@@ -22,11 +22,9 @@ const IsViewLoggedIn = (req, res, next) => {
 const restrictTo = (...usertype) => {
     return (req, res, next) => {
         if (typeof req.user === "undefined") {
-            return next(new AppError("you are not logged in", 400));
+            return res.redirect("back", { error: "You are not logged in" });
         } else if (!usertype.includes(req.user.userType)) {
-            return next(
-                new AppError("you are Authorised to perform this action", 401)
-            );
+            return res.redirect("back", { error: "You are not logged in" });
         }
         next();
     };
