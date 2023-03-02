@@ -4,19 +4,19 @@ const createJWT = require("./../utils/createJWT");
 const User = require("./../models/UserModel");
 
 exports.getHomePage = catchAsync(async (req, res, next) => {
-    res.render('home.ejs', { title: "Home", user: { name: "Krtin Shet" } })
+    res.re  
 });
 
 exports.NotFound = catchAsync(async (req, res, next) => {
-    res.render('404.ejs', { title: "404" })
+    res.render('404.ejs', { title: "404", user: req.user })
 });
 
 exports.getLoginPage = catchAsync(async (req, res, next) => {
-    res.render('login.ejs', { title: "Log In" })
+    res.render('login.ejs', { title: "Log In", user: req.user })
 });
 
 exports.getSignupPage = catchAsync(async (req, res, next) => {
-    res.render('signup.ejs', { title: "Sign Up" })
+    res.render('signup.ejs', { title: "Sign Up", user: req.user })
 });
 
 exports.postLoginPage = catchAsync(async (req, res, next) => {
@@ -83,7 +83,7 @@ exports.postSignUpPage = catchAsync(async (req, res, next) => {
 });
 
 exports.getFeedPage = catchAsync(async (req, res, next) => {
-
+    res.render("feeds", { user: req.user, title: "Home" })
 })
 
 exports.getCreatPostPage = catchAsync(async (req, res, next) => { })

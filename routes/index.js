@@ -13,8 +13,9 @@ const {
 
 
 const IsViewLoggedIn = (req, res, next) => {
+    console.log(req.user)
     if (req.user) {
-        next();
+        return next();
     }
     return res.redirect("/login");
 }
@@ -39,7 +40,7 @@ router.route("/signup").get(getSignupPage).post(postSignUpPage);
 
 router.use(IsViewLoggedIn);
 
-router.get("/feeds", IsViewLoggedIn, getFeedPage);
+router.get("/feeds", getFeedPage);
 router.get("/feeds/create", restrictTo('publisher'), getCreatPostPage);
 router.post("/feeds/create", restrictTo('publisher'), postCreatPostPage);
 
