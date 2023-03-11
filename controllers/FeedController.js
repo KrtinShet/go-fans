@@ -1,7 +1,7 @@
 const Feed = require("./../models/FeedModel");
 const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/AppError");
-const APIFeatures = require("./../utils/ApiFeatures");
+const APIFeatures = require("../utils/APIFeatures");
 
 exports.getAllFeeds = catchAsync(async (req, res, next) => {
     const features = new APIFeatures(Feed.find(), req.query)

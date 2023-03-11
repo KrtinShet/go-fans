@@ -20,7 +20,6 @@ const CommentApi = require("./apis/CommentAPI")
 const FeedApi = require("./apis/FeedAPI")
 const UserApi = require("./apis/UserAPI")
 
-const ViewRoutes = require('./routes/index')
 
 
 dbconfig();
@@ -53,12 +52,6 @@ app.get("/ping", (req, res) => {
     message: "pong",
   });
 });
-
-/**
- * View Endpoints
- */
-
-app.use('/', ViewRoutes)
 
 /**
  * API Endpoints

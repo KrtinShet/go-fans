@@ -5,7 +5,7 @@ module.exports = () => {
 
     });
     connection.then((res) => {
-      console.log(`MongoDB Connected!!`.cyan.bold);
+      console.log(`MongoDB Connected!! on ${res.connection.host}`.cyan.bold);
     })
     // console.log(`MongoDB Connected:`.cyan.bold);
   } catch (error) {
