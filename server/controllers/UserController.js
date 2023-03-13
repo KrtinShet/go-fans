@@ -6,11 +6,16 @@ const AppError = require('../utils/AppError');
 const createJWT = require('../utils/createJWT');
 
 exports.getMe = catchAsync(async (req, res) => {
-    let userMe = await User.findById(req.user.id).select('-password -__v');
-    const reviews = await Review.find({ user: req.user._id });
-    userMe.reviews = reviews;
-    // userMe.reviews = reviews;
-    res.send(userMe);
+    const { id } = req.user;
+    if (!id) return res.status(400).json({ message: "Invalid user" })
+    let userMe = await User.findById(id).select('-password -__v');
+    if (!userMe) {
+        return next(new AppError('user not found', 404));
+    }
+    res.status(200).json({
+        status: 'success',
+        user: userMe,
+    });
 });
 
 
@@ -47,6 +52,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
     await User.findByIdAndUpdate(req.user.id, { active: false });
+    res.removieCookie('jwt');
     res.status(204).json({
         status: 'success',
         data: null,

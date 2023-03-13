@@ -32,6 +32,11 @@ const UserSchema = new mongoose.Schema(
       minlength: 6,
       select: false,
     },
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
+    },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },
@@ -48,6 +53,11 @@ UserSchema.pre("save", async function (next) {
     const salt = await bcrypt.genSalt(11);
     this.password = await bcrypt.hash(this.password, salt);
   }
+  next();
+});
+
+UserSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
   next();
 });
 

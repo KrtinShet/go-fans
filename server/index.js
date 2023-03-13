@@ -19,14 +19,15 @@ const AuthApi = require("./apis/AuthAPI");
 const CommentApi = require("./apis/CommentAPI")
 const FeedApi = require("./apis/FeedAPI")
 const UserApi = require("./apis/UserAPI")
+const PaymentApi = require("./apis/PaymentAPI")
+const SubscriptionApi = require("./apis/SubscriptionAPI")
 
 
 
 dbconfig();
 const app = express()
-app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, "public")));
-// app.set('views', express.static(path.join(__dirname, "views")));
+app.use(express.static(path.join(__dirname, "..", "client", "build")));
 app.use(cors());
 app.options('*', cors());
 app.use(helmet());
@@ -61,16 +62,16 @@ app.use("/api/v1/auth", AuthApi)
 app.use("/api/v1/comment", CommentApi)
 app.use("/api/v1/feed", FeedApi)
 app.use("/api/v1/user", UserApi)
+app.use("/api/v1/subscription", SubscriptionApi)
+app.use("/api/v1/payment", PaymentApi)
 
 
 app.all("*", (req, res, next) => {
-  // if (req.method === "GET" && process.env.NODE_ENV === "production") {
+  console.log(req.originalUrl);
+  // if (req.method === "GET") {
   //   res.sendFile(path.join(__dirname, "public", "index.html"));
   // }
-  // if (req.method === "GET") {
-  //   res.render("404");
-  // }
-  next(new AppError(`URL: "${req.originalUrl}" cannot be found`, 404));
+  // next(new AppError(`URL: "${req.originalUrl}" cannot be found`, 404));
 });
 
 
