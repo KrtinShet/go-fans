@@ -6,14 +6,16 @@ const {
   createFeed,
   updateFeed,
   deleteFeed,
+  getAllSubscribedFeeds,
 } = require("./../controllers/FeedController");
 const { isLoggedIn, restrictTo } = require("./../controllers/AuthController")
 
-router.use(isLoggedIn);
 
+
+router.use(isLoggedIn);
 router
   .route("/")
-  .get(getAllFeeds)
+  .get(getAllSubscribedFeeds)
   .post(restrictTo("publisher"), createFeed);
 
 router

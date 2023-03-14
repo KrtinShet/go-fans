@@ -5,10 +5,13 @@ const {
     getAllPayments,
     getPayment,
     updatePayment,
+    getAllMyPayments
 } = require("./../controllers/PaymentController")
 
+const { isLoggedIn } = require("./../controllers/AuthController")
 
-router.route("/").get(getAllPayments).post(createPayment);
+router.use(isLoggedIn);
+router.route("/").get(getAllMyPayments).post(createPayment);
 router.route("/:id").get(getPayment).put(updatePayment);
 
 

@@ -9,10 +9,21 @@ const SubscriptionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    expires: {
-        type: Date,
-        default: Date.now
+},
+    {
+        timestamps: true,
+        expireAfterSeconds: 2592000,
+        expires: 2592000,
     }
-});
+);
+
+
+SubscriptionSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: "creator",
+        select: "+"
+    })
+    next();
+})
 
 module.exports = mongoose.model('Subscription', SubscriptionSchema);

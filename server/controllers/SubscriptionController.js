@@ -25,6 +25,32 @@ exports.getAllSubscriptions = catchAsync(async (req, res, next) => {
     });
 });
 
+exports.getAllMySubscriptions = catchAsync(async (req, res, next) => {
+    let query = Subscription.find({
+        user: req.user._id
+    })
+
+    let features = new APIFeatures(query, req.query)
+        .filter()
+        .sort()
+        .limitFields()
+
+    let filteredSubscriptions = await features.query.clone();
+    let filteredLength = filteredSubscriptions.length;
+
+    if (req.query.page && req.query.limit) {
+        filteredSubscriptions = await features.paginate().query.clone();
+    }
+
+    res.status(200).json({
+        status: 'success',
+        totalLength: filteredLength,
+        length: filteredSubscriptions.length,
+        subscriptions: filteredSubscriptions,
+    });
+
+});
+
 exports.getSubscription = catchAsync(async (req, res, next) => {
     const subscription = await Subscription.findById(req.params.id);
     if (!subscription) {
@@ -48,4 +74,15 @@ exports.updateSubscription = catchAsync(async (req, res, next) => {
         status: 'success',
         subscription: updatedSubscription
     });
+});
+
+exports.testSubscriptionQueries = catchAsync(async (req, res, next) => {
+
+    const subscriptions = await Subscription.find({ user: req.user._id });
+    const creators = subscriptions.map(sub => sub.creator);
+    res.status(200).json({
+        status: 'success',
+        creators
+    });
+
 });

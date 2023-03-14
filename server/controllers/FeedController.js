@@ -2,9 +2,39 @@ const Feed = require("./../models/FeedModel");
 const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/AppError");
 const APIFeatures = require("../utils/APIFeatures");
+const Subscription = require("./../models/subscriptionModel")
 
 exports.getAllFeeds = catchAsync(async (req, res, next) => {
-    let features = new APIFeatures(Feed.find(), req.query)
+    let query = Feed.find();
+
+    let features = new APIFeatures(query, req.query)
+        .filter()
+        .sort()
+        .limitFields()
+
+    let filteredFeeds = await features.query.clone();
+
+    let filteredLength = filteredFeeds.length;
+
+    if (req.query.page && req.query.limit) {
+        filteredFeeds = await features.paginate().query.clone();
+    }
+
+    res.status(200).json({
+        status: "success",
+        totalLength: filteredLength,
+        length: filteredFeeds.length,
+        feeds: filteredFeeds,
+    });
+});
+
+exports.getAllSubscribedFeeds = catchAsync(async (req, res, next) => {
+    let subscriptions = await Subscription.find({ user: req.user._id });
+    let subscribedPublishers = subscriptions.map((sub) => sub.creator._id);
+
+    let query = Feed.find({ user: { $in: subscribedPublishers } });
+
+    let features = new APIFeatures(query, req.query)
         .filter()
         .sort()
         .limitFields()
