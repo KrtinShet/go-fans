@@ -4,17 +4,17 @@ const AppError = require("./../utils/AppError");
 const APIFeatures = require("../utils/APIFeatures");
 
 exports.getAllFeeds = catchAsync(async (req, res, next) => {
-    const features = new APIFeatures(Feed.find(), req.query)
+    let features = new APIFeatures(Feed.find(), req.query)
         .filter()
         .sort()
         .limitFields()
 
-    const filteredFeeds = await features.query;
+    let filteredFeeds = await features.query.clone();
 
-    const filteredLength = filteredFeeds.length;
+    let filteredLength = filteredFeeds.length;
 
-    if (req.query.APIFeatures && req.query.limit) {
-        filteredFeeds = await features.paginate().query;
+    if (req.query.page && req.query.limit) {
+        filteredFeeds = await features.paginate().query.clone();
     }
 
     res.status(200).json({
@@ -39,12 +39,18 @@ exports.getFeed = catchAsync(async (req, res, next) => {
 });
 
 exports.createFeed = catchAsync(async (req, res, next) => {
-    const feed = await Feed.create(req.body);
+    let newFeedData = {
+        user: req.user,
+        ...req.body,
+    }
+    const feed = await Feed.create(newFeedData);
 
     res.status(201).json({
         status: "success",
         feed,
     });
+
+
 });
 
 exports.updateFeed = catchAsync(async (req, res, next) => {

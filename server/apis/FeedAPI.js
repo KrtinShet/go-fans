@@ -9,16 +9,17 @@ const {
 } = require("./../controllers/FeedController");
 const { isLoggedIn, restrictTo } = require("./../controllers/AuthController")
 
+router.use(isLoggedIn);
 
 router
   .route("/")
   .get(getAllFeeds)
-  .post(isLoggedIn, restrictTo("publisher"), createFeed);
+  .post(restrictTo("publisher"), createFeed);
 
 router
   .route("/:id")
-  .get(isLoggedIn, getFeed)
-  .patch(isLoggedIn, restrictTo("publisher"), updateFeed)
-  .delete(isLoggedIn, restrictTo("publisher"), deleteFeed);
+  .get(getFeed)
+  .patch(restrictTo("publisher"), updateFeed)
+  .delete(restrictTo("publisher"), deleteFeed);
 
 module.exports = router;

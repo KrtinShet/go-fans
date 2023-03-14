@@ -47,8 +47,8 @@ const CommentSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    toJSON: true,
-    toObject: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 

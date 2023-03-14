@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const FeedSchema = new mongoose.Schema({
     user: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: [true, "Feed must belong to a user"],
     },
@@ -16,7 +16,7 @@ const FeedSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        required: [true, "Feed must have an image"],
+        // required: [true, "Feed must have an image"],
     },
     comments: [
         {
@@ -32,18 +32,18 @@ const FeedSchema = new mongoose.Schema({
     ],
 }, {
     timestamps: true,
-    toJSON: true,
-    toObject: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
 
 });
 
-FeedSchema.pre(/^find/, function (next) {
-    this.populate({
-        path: "user",
-        select: "name profileImage",
-    });
-    next();
-});
+// FeedSchema.pre(/^find/, function (next) {
+//     this.populate({
+//         path: "user",
+//         select: "name profileImage",
+//     });
+//     next();
+// });
 
 const Feed = mongoose.model("Feed", FeedSchema);
 

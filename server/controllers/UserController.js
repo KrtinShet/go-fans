@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/UserModel');
 const catchAsync = require('../utils/catchAsync');
-const APIFeature = require("./../utils/ApiFeatures")
+const APIFeature = require("./../utils/APIFeatures")
 const AppError = require('../utils/AppError');
 const createJWT = require('../utils/createJWT');
 
@@ -64,14 +64,20 @@ exports.getUsers = catchAsync(async (req, res) => {
         .filter()
         .sort()
         .limitFields()
-        .paginate();
-    const users = await features.query.select('-password -__v');
+
+    let filterdUser = await features.query.clone();
+
+    let filteredLength = filterdUser.length;
+
+    if (req.query.page && req.query.limit) {
+        filterdUser = await features.paginate().query.clone();
+    }
+
     res.status(200).json({
         status: 'success',
-        results: users.length,
-        data: {
-            users,
-        },
+        totalLength: filteredLength,
+        length: filterdUser.length,
+        users: filterdUser,
     });
 });
 

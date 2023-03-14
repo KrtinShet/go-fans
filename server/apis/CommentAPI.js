@@ -9,16 +9,19 @@ const {
 } = require("./../controllers/CommentController");
 const { isLoggedIn, restrictTo } = require("./../controllers/AuthController");
 
+
+router.use(isLoggedIn)
+
 router
   .route("/")
-  .get(isLoggedIn, getAllComments)
-  .post(isLoggedIn, restrictTo(["user", "publisher"]), createComment);
+  .get(getAllComments)
+  .post(restrictTo(["user", "publisher"]), createComment);
 
 router
   .route("/:id")
-  .get(isLoggedIn, getComment)
-  .patch(isLoggedIn, restrictTo(["user", "publisher"]), updateComment)
-  .delete(isLoggedIn, restrictTo(["user", "publisher"]), deleteComment);
+  .get(getComment)
+  .patch(restrictTo(["user", "publisher"]), updateComment)
+  .delete(restrictTo(["user", "publisher"]), deleteComment);
 
 
 

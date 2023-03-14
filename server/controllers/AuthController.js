@@ -113,13 +113,13 @@ exports.getLogout = (req, res, next) => {
     });
 };
 
-exports.restrictTo = (...usertype) => {
+exports.restrictTo = (...usertype) => { 
     return (req, res, next) => {
         if (typeof req.user === "undefined") {
             return next(new AppError("you are not logged in", 400));
-        } else if (!usertype.includes(req.user.userType)) {
+        } else if (!usertype.includes(req.user.role)) {
             return next(
-                new AppError("you are Authorised to perform this action", 401)
+                new AppError("you are not Authorised to perform this action", 401)
             );
         }
         next();

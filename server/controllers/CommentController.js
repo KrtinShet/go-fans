@@ -1,7 +1,7 @@
 const Comment = require("./../models/CommetModel");
 const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/AppError");
-const APIFeatures = require("./../utils/ApiFeatures");
+const APIFeatures = require("./../utils/APIFeatures");
 const Feed = require("./../models/FeedModel");
 
 exports.getAllComments = catchAsync(async (req, res, next) => {
