@@ -26,7 +26,7 @@ export default function ButtonAppBar() {
     const handleMenu = (event) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
     const handleCreatorLogin = () => navigate('/creator/login')
-    const handleProfile = () => navigate('/profile')
+    const handleProfile = () => navigate('/dashboard/myposts')
     const handleHome = () => navigate('/')
     const handleLogin = () => navigate('/login')
     const handleSignup = () => navigate('/signup')
@@ -77,7 +77,7 @@ export default function ButtonAppBar() {
                                     open={Boolean(anchorEl)}
                                     onClose={handleClose}
                                 >
-                                    <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                                    <MenuItem onClick={handleProfile}>Dashboard</MenuItem>
                                     {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
                                 </Menu>
                             </div>

@@ -18,6 +18,7 @@ import MyPosts from './MyPosts'
 import FollowersPage from './FollowersPage'
 import StatsPage from './StatsPage'
 import CreateFeedPage from './CreateFeedPage'
+import CreatorsPage from './Creators'
 
 const routes = createBrowserRouter([
     {
@@ -26,8 +27,9 @@ const routes = createBrowserRouter([
         children: [
             { path: '/', element: <HomePage /> },
             { path: '/login', element: <LoginPage /> },
-            { path: '/creator/login', element: <CreatorLoginPage /> },
+            { path: '/creators', element: <CreatorsPage /> },
             { path: '/signup', element: <SignupPage /> },
+            { path: '/creator/login', element: <CreatorLoginPage /> },
             { path: '/creator/signup', element: <CreatorSignupPage /> },
             {
                 element: <AuthWrapper />,

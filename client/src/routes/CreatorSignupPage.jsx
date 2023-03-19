@@ -4,8 +4,10 @@ import { Avatar, Box, Button, TextField, Typography } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockClockOutlined";
 
 import { useCreatorRegisterMutation } from "./../store/api/authApiSlice";
+import { useNavigate } from "react-router-dom";
 
 function SignupPage() {
+  const navigate = useNavigate();
   const [registerCreator] = useCreatorRegisterMutation();
 
   const handleSubmit = async (event) => {
@@ -17,6 +19,7 @@ function SignupPage() {
       password: data.get("password"),
       confirmPassword: data.get("confirmPassword"),
     });
+    navigate("/dashboard/myposts");
   };
 
   return (

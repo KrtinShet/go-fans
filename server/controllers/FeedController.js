@@ -138,7 +138,6 @@ exports.likeFeed = catchAsync(async (req, res, next) => {
     });
 });
 
-
 exports.unlikeFeed = catchAsync(async (req, res, next) => {
     const feed = await Feed.findById(req.params.feedId);
 
@@ -157,5 +156,19 @@ exports.unlikeFeed = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: "success",
         feed,
+    });
+});
+
+exports.getAllCreatorFeeds = catchAsync(async (req, res, next) => {
+    const creatorId = req.params.id;
+    const feeds = await Feed.find({ user: creatorId });
+
+    if (!feeds) {
+        return next(new AppError("No feeds found for this creator", 404));
+    }
+
+    res.status(200).json({
+        status: "success",
+        feeds,
     });
 });

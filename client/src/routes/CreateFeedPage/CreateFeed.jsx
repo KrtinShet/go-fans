@@ -39,7 +39,7 @@ function CreateFeedPage() {
     setTitle("");
     setDescription("");
     setImage(null);
-    navigate("..");
+    navigate("/dashboard/myposts");
   };
 
   return (

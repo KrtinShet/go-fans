@@ -12,16 +12,23 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockClockOutlined";
 
+import { useRegisterMutation } from "./../store/api/authApiSlice";
+import { useNavigate } from "react-router-dom";
+
 function SignupPage() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const [registerUser] = useRegisterMutation();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    await registerUser({
       email: data.get("email"),
       username: data.get("username"),
       password: data.get("password"),
       confirmPassword: data.get("confirmPassword"),
     });
+    navigate("/feeds");
   };
 
   return (

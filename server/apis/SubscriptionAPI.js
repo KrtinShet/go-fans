@@ -10,9 +10,9 @@ const {
 } = require("./../controllers/SubscriptionController")
 const { isLoggedIn } = require("./../controllers/AuthController")
 
-router.get("/test", testSubscriptionQueries)
 router.use(isLoggedIn);
 router.route("/").get(getAllMySubscriptions).post(createSubscription);
+router.get("/s/", getAllSubscriptions)
 router.route("/:id").get(getSubscription).put(updateSubscription);
 
 module.exports = router;

@@ -75,7 +75,7 @@ export const feedsApiSlice = apiSlice.injectEndpoints({
                 method: 'DELETE',
             }),
             invalidatesTags: (result, error, arg) => {
-                return [{ type: 'FEEDS', id: arg }]
+                return ['FEEDS']
             }
         }),
         likeFeed: builder.mutation({
@@ -118,6 +118,20 @@ export const feedsApiSlice = apiSlice.injectEndpoints({
                 return tags
             }
         }),
+        getAllCreatorFeeds: builder.query({
+            query: (id) => `/feed/creator/${id}`,
+            providesTags: (result, error, arg) => {
+                if (result) {
+                    const { feeds } = result;
+                    let tags = [...feeds.map((feed) => ({
+                        type: "FEEDS",
+                        id: feed._id,
+                    })), "FEEDS"];
+
+                    return tags
+                }
+            },
+        }),
     }),
     overrideExisting: false,
 })
@@ -131,4 +145,5 @@ export const {
     useDeleteFeedMutation,
     useLikeFeedMutation,
     useUnlikeFeedMutation,
+    useGetAllCreatorFeedsQuery,
 } = feedsApiSlice

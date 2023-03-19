@@ -33,8 +33,42 @@ export const userApiSlice = apiSlice.injectEndpoints({
             }
         }),
 
+        getSubscribers: builder.query({
+            query: (creatorId) => `subscription/s/?fields=subscriber&creator=${creatorId}`,
+            providesTags: (result, error, arg) => {
+                if (result) {
+                    const { subscriptions } = result
+                    let tags = [...subscriptions.map((subscription) => ({
+                        type: 'SUBSCRIBER',
+                        id: subscription._id,
+                    }))];
+                    tags = [...tags, "SUBSCRIBER"];
+                    return tags;
+                }
+            },
+        }),
+
+        getAllCreators: builder.query({
+            query: () => `user?role=publisher`,
+            providesTags: (result, error, arg) => {
+                if (result) {
+                    const { users } = result
+                    let tags = [...users.map((user) => ({
+                        type: 'CREATOR',
+                        id: user._id,
+                    }))];
+                    tags = [...tags, "CREATOR"];
+                    return tags;
+                }
+            },
+        }),
     }),
     overrideExisting: false,
 })
 
-export const { useGetSubscribedCreatorsQuery, useGetCreatorDetailsQuery } = userApiSlice
+export const {
+    useGetSubscribedCreatorsQuery,
+    useGetCreatorDetailsQuery,
+    useGetSubscribersQuery,
+    useGetAllCreatorsQuery
+} = userApiSlice

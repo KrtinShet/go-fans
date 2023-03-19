@@ -23,6 +23,10 @@ SubscriptionSchema.pre(/^find/, function (next) {
         path: 'creator',
         select: 'username email profileImage _id'
     })
+    this.populate({
+        path: 'user',
+        select: 'username email profileImage _id'
+    })
     next();
 })
 

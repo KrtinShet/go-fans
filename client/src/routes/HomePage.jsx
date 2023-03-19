@@ -90,11 +90,31 @@ function HomePage() {
               textDecoration: "none",
             }}
           >
-            Go Login In?
+            Log In and start supporting!
           </Button>
         </Link>
 
-        {/* <Button></Button> */}
+        <Link
+          sx={{
+            textDecoration: "none",
+          }}
+          to="/creators"
+        >
+          <Button
+            sx={{
+              color: "primary.500",
+              border: "1px solid",
+              borderColor: "primary.500",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: 0.5,
+              fontSize: "sm",
+              textDecoration: "none",
+            }}
+          >
+            Find Creators!
+          </Button>
+        </Link>
       </Box>
     </Container>
   );

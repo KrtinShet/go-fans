@@ -7,9 +7,7 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
-import MenuIcon from "@mui/icons-material/Menu";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -18,6 +16,10 @@ import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "./../../store/api/authApiSlice";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Badge, IconButton } from "@mui/material";
+
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -66,6 +68,7 @@ const Drawer = styled(MuiDrawer, {
 
 function DashboardContent({ children }) {
   const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
 
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
@@ -81,18 +84,6 @@ function DashboardContent({ children }) {
             pr: "24px",
           }}
         >
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={toggleDrawer}
-            sx={{
-              marginRight: "36px",
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography
             component="h1"
             variant="h6"
@@ -102,6 +93,11 @@ function DashboardContent({ children }) {
           >
             Dashboard
           </Typography>
+          <IconButton color="inherit" onClick={() => logout()}>
+            <Badge color="secondary">
+              <LogoutIcon />
+            </Badge>
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

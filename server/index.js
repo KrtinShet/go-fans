@@ -20,7 +20,7 @@ const FeedApi = require("./apis/FeedAPI")
 const UserApi = require("./apis/UserAPI")
 const PaymentApi = require("./apis/PaymentAPI")
 const SubscriptionApi = require("./apis/SubscriptionAPI")
-
+const statsApi = require("./apis/statsApi");
 
 
 dbconfig();
@@ -63,6 +63,7 @@ app.use("/api/v1/feed", FeedApi)
 app.use("/api/v1/user", UserApi)
 app.use("/api/v1/subscription", SubscriptionApi)
 app.use("/api/v1/payment", PaymentApi)
+app.use("/api/v1/stats", statsApi)
 
 
 app.all("*", (req, res, next) => {
