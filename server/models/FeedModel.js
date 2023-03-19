@@ -18,12 +18,12 @@ const FeedSchema = new mongoose.Schema({
         type: String,
         // required: [true, "Feed must have an image"],
     },
-    comments: [
-        {
-            type: mongoose.Schema.ObjectId,
-            ref: "Comment",
-        },
-    ],
+    // comments: [
+    //     {
+    //         type: mongoose.Schema.ObjectId,
+    //         ref: "Comment",
+    //     },
+    // ],
     likes: [
         {
             type: mongoose.Schema.ObjectId,
@@ -37,13 +37,13 @@ const FeedSchema = new mongoose.Schema({
 
 });
 
-// FeedSchema.pre(/^find/, function (next) {
-//     this.populate({
-//         path: "user",
-//         select: "name profileImage",
-//     });
-//     next();
-// });
+FeedSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: "user",
+        select: "username profileImage",
+    });
+    next();
+});
 
 const Feed = mongoose.model("Feed", FeedSchema);
 

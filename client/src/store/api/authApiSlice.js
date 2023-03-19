@@ -8,6 +8,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body,
             }),
+            invalidatesTags: () => {
+                console.log("Invalidating all tags");
+                return ['FEEDS', "CREATOR", 'COMMENTS', 'PAYMENTS'];
+            }
         }),
         register: builder.mutation({
             query: (body) => ({
@@ -30,8 +34,11 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body,
             }),
         }),
-        logout: builder.query({
-            query: () => '/auth/logout',
+        logout: builder.mutation({
+            query: () => ({
+                url: '/auth/logout',
+                method: 'GET',
+            }),
         }),
         getMe: builder.query({
             query: () => '/auth/me',
@@ -43,9 +50,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
 export const {
     useLoginMutation,
     useRegisterMutation,
-    useLogoutMutation,
     useGetMeQuery,
     useCreatorLoginMutation,
-    useCreatorRegisterMutation
+    useCreatorRegisterMutation,
+    useLogoutMutation
 } = authApiSlice
 

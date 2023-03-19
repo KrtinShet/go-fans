@@ -1,8 +1,8 @@
-const Feed = require("./../models/FeedModel");
-const catchAsync = require("./../utils/catchAsync");
-const AppError = require("./../utils/AppError");
+const Feed = require("../models/FeedModel");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/AppError");
 const APIFeatures = require("../utils/APIFeatures");
-const Subscription = require("./../models/subscriptionModel")
+const Subscription = require("../models/subscriptionModel")
 
 exports.getAllFeeds = catchAsync(async (req, res, next) => {
     let query = Feed.find();
@@ -69,18 +69,23 @@ exports.getFeed = catchAsync(async (req, res, next) => {
 });
 
 exports.createFeed = catchAsync(async (req, res, next) => {
+
     let newFeedData = {
         user: req.user,
         ...req.body,
     }
+    if (req.file) {
+        newFeedData.image = req.file.filename
+    }
     const feed = await Feed.create(newFeedData);
 
+    if (!feed) {
+        return next(new AppError("Feed could not be created", 500));
+    }
     res.status(201).json({
         status: "success",
         feed,
     });
-
-
 });
 
 exports.updateFeed = catchAsync(async (req, res, next) => {
@@ -109,5 +114,48 @@ exports.deleteFeed = catchAsync(async (req, res, next) => {
     res.status(204).json({
         status: "success",
         data: null,
+    });
+});
+
+exports.likeFeed = catchAsync(async (req, res, next) => {
+    const feed = await Feed.findById(req.params.feedId);
+
+    if (!feed) {
+        return next(new AppError("No feed found with that ID", 404));
+    }
+
+    if (feed.likes.includes(req.user._id)) {
+        return next(new AppError("You already liked this feed", 409));
+    }
+
+    feed.likes.push(req.user._id);
+
+    await feed.save();
+
+    res.status(200).json({
+        status: "success",
+        feed,
+    });
+});
+
+
+exports.unlikeFeed = catchAsync(async (req, res, next) => {
+    const feed = await Feed.findById(req.params.feedId);
+
+    if (!feed) {
+        return next(new AppError("No feed found with that ID", 404));
+    }
+
+    if (!feed.likes.includes(req.user._id)) {
+        return next(new AppError("You haven't liked this feed yet", 409));
+    }
+
+    feed.likes = feed.likes.filter((id) => id != req.user._id);
+
+    await feed.save();
+
+    res.status(200).json({
+        status: "success",
+        feed,
     });
 });

@@ -17,14 +17,14 @@ const UserSchema = new mongoose.Schema(
         "Please add a valid email",
       ],
     },
+    profileImage: {
+      type: String,
+      default: "default.jpg",
+    },
     role: {
       type: String,
       enum: ["user", "publisher"],
       default: "user",
-    },
-    subscribedPublishers: {
-      type: [mongoose.Schema.ObjectId],
-      ref: "User",
     },
     password: {
       type: String,
@@ -36,6 +36,12 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
       select: false,
+    },
+    description: {
+      type: String,
+    },
+    tagline: {
+      type: String
     },
     resetPasswordToken: String,
     resetPasswordExpire: Date,

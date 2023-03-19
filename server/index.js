@@ -8,7 +8,6 @@ cookieParser = require('cookie-parser')
 require("colors");
 
 
-const AppError = require("./utils/AppError");
 const dbconfig = require("./config/dbconfig");
 const ErrorController = require("./controllers/ErrorController");
 const {

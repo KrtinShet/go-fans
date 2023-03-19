@@ -20,8 +20,8 @@ const SubscriptionSchema = new mongoose.Schema({
 
 SubscriptionSchema.pre(/^find/, function (next) {
     this.populate({
-        path: "creator",
-        select: "+"
+        path: 'creator',
+        select: 'username email profileImage _id'
     })
     next();
 })

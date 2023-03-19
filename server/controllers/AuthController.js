@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv"); 
+const dotenv = require("dotenv");
 
 const createJWT = require("./../utils/createJWT");
 const User = require("./../models/UserModel");
@@ -113,11 +113,13 @@ exports.getLogout = (req, res, next) => {
     });
 };
 
-exports.restrictTo = (...usertype) => { 
+exports.restrictTo = (...usertype) => {
     return (req, res, next) => {
         if (typeof req.user === "undefined") {
             return next(new AppError("you are not logged in", 400));
         } else if (!usertype.includes(req.user.role)) {
+            console.log(req.user.role)
+            console.log(usertype)
             return next(
                 new AppError("you are not Authorised to perform this action", 401)
             );

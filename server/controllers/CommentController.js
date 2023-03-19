@@ -40,15 +40,20 @@ exports.getComment = catchAsync(async (req, res, next) => {
 });
 
 exports.createComment = catchAsync(async (req, res, next) => {
-    const feed = await Feed.findById(req.params.id);
+    
+    const feed = await Feed.findById(req.body.feed);
     if (!feed) {
         return next(new AppError("No feed found with that ID", 404));
     }
-
     
+    
+    
+    const commentObject = {
+        user: req.user.id,
+        ...req.body,
+    }
 
-    const comment = await Comment.create(req.body);
-
+    const comment = await Comment.create(commentObject);
     res.status(201).json({
         status: "success",
         comment,
