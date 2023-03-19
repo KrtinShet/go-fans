@@ -13,7 +13,7 @@ function Index() {
             <Box>
                 <h1>Followers</h1>
                 {followerData && followerData?.subscriptions.map((subscription) => (
-                    <Card key={subscription.id} sx={{ display: 'flex', mb: 2, maxWidth: '250px', alignContent: "center", alignItems: "center", px: 2 }}>
+                    <Card key={subscription.id} sx={{ display: 'flex', mb: 2, maxWidth: '450px', alignContent: "center", alignItems: "center", px: 2 }}>
                         <Box>
                             <CardMedia
                                 component={'img'}

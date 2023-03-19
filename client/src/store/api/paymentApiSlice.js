@@ -8,6 +8,13 @@ export const paymentApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body,
             }),
+            invalidatesTags: (result, error, arg) => {
+                if (result) {
+                    return ['PAYMENTS', "FEEDS", 'COMMENT', 'SUBSCRIBER', 'CREATOR']
+                }   
+
+            },
+            providesTags: (result, error, id) => { }
         }),
         getSubscription: builder.query({
             query: () => '/payment',

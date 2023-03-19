@@ -9,7 +9,7 @@ import {
   Container,
   Typography,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetCreatorDetailsQuery,
   useGetSubscribedCreatorsQuery,
@@ -17,6 +17,7 @@ import {
 
 function Index() {
   const { creatorId } = useParams();
+  const navigate = useNavigate();
 
   const { data: creatorData } = useGetCreatorDetailsQuery(creatorId);
   const { data: subscriberdCreatorData } = useGetSubscribedCreatorsQuery();
@@ -29,7 +30,7 @@ function Index() {
   }, [subscriberdCreatorData, creatorId]);
 
   let handleFollowClick = () => {
-    console.log("Follow Clicked");
+    navigate(`/payment/${creatorId}`);
   };
 
   return (

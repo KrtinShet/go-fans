@@ -1,10 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
-
-
 import AppLayout from './../components/AppLayout'
 import AuthWrapper from './../components/AuthWrapper'
-
-
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 import HomePage from './HomePage';
@@ -19,6 +15,7 @@ import FollowersPage from './FollowersPage'
 import StatsPage from './StatsPage'
 import CreateFeedPage from './CreateFeedPage'
 import CreatorsPage from './Creators'
+import PaymentPage from './PaymentPage'
 
 const routes = createBrowserRouter([
     {
@@ -36,6 +33,7 @@ const routes = createBrowserRouter([
                 children: [
                     { path: '/feeds', element: <FeedsPage /> },
                     { path: '/feeds/:feedId', element: <FeedPage /> },
+                    { path: "/payment/:creatorId", element: <PaymentPage /> }
                 ]
             },
             {

@@ -47,6 +47,9 @@ export default function ButtonAppBar() {
                             '& > :not(style)': { m: 1 },
 
                         }}>
+                            <Button color="inherit" sx={{ mr: 1 }} onClick={() => navigate('/creators')}>
+                                Find Creators?
+                            </Button>
                             <Button color="inherit" sx={{ mr: 1 }} onClick={handleLogout}>
                                 Logout
                             </Button>
