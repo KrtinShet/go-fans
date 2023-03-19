@@ -12,7 +12,7 @@ import FeedPage from './FeedPage'
 import CreatorPage from './CreatorPage'
 import MyPosts from './MyPosts'
 import FollowersPage from './FollowersPage'
-import StatsPage from './StatsPage'
+import StatsPage from './Stats'
 import CreateFeedPage from './CreateFeedPage'
 import CreatorsPage from './Creators'
 import PaymentPage from './PaymentPage'
@@ -41,11 +41,11 @@ const routes = createBrowserRouter([
                 children: [
                     { path: '/dashboard/myposts', element: <MyPosts /> },
                     { path: '/dashboard/followers', element: <FollowersPage /> },
-                    { path: '/dashboard/stats', element: <StatsPage /> },
                     { path: '/dashboard/createfeed', element: <CreateFeedPage /> },
                 ]
             },
             { path: "/creator/:creatorId", element: <CreatorPage /> },
+            { path: "/stats", element: <StatsPage /> },
             { path: '*', element: <NotFoundPage /> },
         ]
     }

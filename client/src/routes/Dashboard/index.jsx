@@ -114,12 +114,12 @@ function DashboardContent({ children }) {
             </ListItemIcon>
             <ListItemText primary="Followers" />
           </ListItemButton>
-          <ListItemButton onClick={() => navigate("/dashboard/stats")}>
+          {/* <ListItemButton onClick={() => navigate("/dashboard/stats")}>
             <ListItemIcon>
               <BarChartIcon />
             </ListItemIcon>
             <ListItemText primary="Stats" />
-          </ListItemButton>
+          </ListItemButton> */}
           <ListItemButton onClick={() => navigate("/dashboard/createfeed")}>
             <ListItemIcon>
               <AddBoxIcon />

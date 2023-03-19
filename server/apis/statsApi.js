@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const User = require("./../models/UserModel")
-const Subscription = require('./../models/subscriptionModel')
 const catchAsync = require("./../utils/catchAsync")
 
 
@@ -71,7 +70,7 @@ router.get("/top-3-users", catchAsync(async (req, res) => {
     })
 }))
 
-router.get("/average-payments-by-users", catchAsync(async (req, res) => {
+router.get("/average-payments-by-top-3-users", catchAsync(async (req, res) => {
     const avgPaymentsByUsers = await User.aggregate([
         {
             $lookup: {
@@ -79,7 +78,7 @@ router.get("/average-payments-by-users", catchAsync(async (req, res) => {
                 localField: "_id",
                 foreignField: "user",
                 as: "payments"
-            }
+            },
         },
         {
             $project: {
@@ -91,23 +90,27 @@ router.get("/average-payments-by-users", catchAsync(async (req, res) => {
             },
         },
         {
-            $sort: { totalPayments: -1 }
+            $sort: { totalPayments: -1 },
         },
         {
-
-        }
+            $limit: 3,
+        },
     ])
+
+    const totalPayments = avgPaymentsByUsers.reduce((acc, user) => acc + user.totalPayments, 0)
+    const avgPayments = totalPayments / avgPaymentsByUsers.length
+
 
     res.status(200).json({
         status: "success",
-        users: avgPaymentsByUsers
+        avgPayments
     })
 }))
 
 
 //Percentage of users who have subscribed to at least one creator:
 
-router.get("/percentage-of-users-who-have-subscribed", catchAsync(async (req, res) => {}))
-router.get("/percentage-of-users-who-have-subscribed", catchAsync(async (req, res) => {}))
+router.get("/percentage-of-users-who-have-subscribed", catchAsync(async (req, res) => { }))
+router.get("/percentage-of-users-who-have-subscribed", catchAsync(async (req, res) => { }))
 
 module.exports = router
